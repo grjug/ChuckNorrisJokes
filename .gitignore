@@ -2,5 +2,4 @@
 /local.properties
 /.idea/workspace.xml
 .DS_Store
-./app/app.iml
-./ChuckNorrisJokes.iml
+*.iml
