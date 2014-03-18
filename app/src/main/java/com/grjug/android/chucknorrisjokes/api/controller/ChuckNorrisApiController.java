@@ -19,6 +19,7 @@ public class ChuckNorrisApiController {
 
     public ChuckNorrisJokeData getRandomJoke() {
         returned = false;
+        apiDao.getRandomJoke(new ResponseListener(), new ErrorListener());
 
         int tryCount = 0;
         while(!returned) {
@@ -40,6 +41,33 @@ public class ChuckNorrisApiController {
         }
 
         return buildChuckNorrisJokeData(jsonObject);
+    }
+
+    public ChuckNorrisJokeData getJokeById(int id) {
+        returned = false;
+        apiDao.getJokeById(id, new ResponseListener(), new ErrorListener());
+
+        int tryCount = 0;
+        while(!returned) {
+            try {
+                Thread.sleep(100);
+                tryCount++;
+
+                if (tryCount > 5) {
+                    throw new RuntimeException("Fetching sync joke timed out...");
+                }
+            }
+            catch(Exception ex) {
+                //log this...
+            }
+        }
+
+        if (jsonObject == null) {
+            throw new RuntimeException("Error fetching joke... " + errorMessage);
+        }
+
+        return buildChuckNorrisJokeData(jsonObject);
+
     }
 
     private ChuckNorrisJokeData buildChuckNorrisJokeData(JSONObject jsonObject) {
