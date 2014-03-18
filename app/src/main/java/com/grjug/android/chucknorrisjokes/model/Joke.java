@@ -9,6 +9,4 @@ import android.R.string;
 public class Joke {
     int id;
     string jokeText;
-    List<string> categories;
-    int count;
 }
