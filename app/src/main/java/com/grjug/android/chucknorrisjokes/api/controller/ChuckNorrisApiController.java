@@ -1,7 +1,6 @@
 package com.grjug.android.chucknorrisjokes.api.controller;
 
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
 import com.grjug.android.chucknorrisjokes.api.data.ChuckNorrisJokeData;
 
@@ -18,56 +17,21 @@ public class ChuckNorrisApiController {
     private String errorMessage;
 
     public ChuckNorrisJokeData getRandomJoke() {
-        returned = false;
-        apiDao.getRandomJoke(new ResponseListener(), new ErrorListener());
-
-        int tryCount = 0;
-        while(!returned) {
-            try {
-                Thread.sleep(100);
-                tryCount++;
-
-                if (tryCount > 5) {
-                    throw new RuntimeException("Fetching sync joke timed out...");
-                }
-            }
-            catch(Exception ex) {
-                //log this...
-            }
-        }
-
-        if (jsonObject == null) {
-            throw new RuntimeException("Error fetching joke... " + errorMessage);
-        }
-
+        JSONObject jsonObject = apiDao.getRandomJoke();
         return buildChuckNorrisJokeData(jsonObject);
     }
 
+    public void getRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        apiDao.getRandomJoke(responseListener, errorListener);
+    }
+
     public ChuckNorrisJokeData getJokeById(int id) {
-        returned = false;
-        apiDao.getJokeById(id, new ResponseListener(), new ErrorListener());
-
-        int tryCount = 0;
-        while(!returned) {
-            try {
-                Thread.sleep(100);
-                tryCount++;
-
-                if (tryCount > 5) {
-                    throw new RuntimeException("Fetching sync joke timed out...");
-                }
-            }
-            catch(Exception ex) {
-                //log this...
-            }
-        }
-
-        if (jsonObject == null) {
-            throw new RuntimeException("Error fetching joke... " + errorMessage);
-        }
-
+        JSONObject jsonObject = apiDao.getJokeById(id);
         return buildChuckNorrisJokeData(jsonObject);
+    }
 
+    public void getJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        apiDao.getJokeById(id, responseListener, errorListener);
     }
 
     private ChuckNorrisJokeData buildChuckNorrisJokeData(JSONObject jsonObject) {
@@ -79,23 +43,5 @@ public class ChuckNorrisApiController {
             e.printStackTrace();
         }
         return data;
-    }
-
-    private class ResponseListener implements Response.Listener<JSONObject> {
-
-        @Override
-        public void onResponse(JSONObject jsonObject) {
-            returned = true;
-            jsonObject = jsonObject;
-        }
-    }
-
-    private class ErrorListener implements Response.ErrorListener {
-
-        @Override
-        public void onErrorResponse(VolleyError volleyError) {
-            returned = true;
-            errorMessage = volleyError.getMessage();
-        }
     }
 }
