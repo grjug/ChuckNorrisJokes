@@ -1,15 +1,10 @@
 package com.grjug.android.chucknorrisjokes.api.util;
 
-import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.grjug.android.chucknorrisjokes.api.data.ChuckNorrisJoke;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -17,23 +12,21 @@ import org.json.JSONObject;
  */
 public class ChuckNorrisApiUtil {
     private RequestQueue requestQueue;
+    private static final String RANDOM_URL = "http://api.icndb.com/jokes/random";
+    private static final String GET_JOKE_URL = "http://api.icndb.com/jokes/";
 
-    public JSONObject getRandomJoke() {
-        final JSONObject json;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RANDOM_URL, null,
-                new Response.Listener<JSONObject>() {
+    public void queueGetRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RANDOM_URL, null, responseListener, errorListener);
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
 
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        json = jsonObject;
-                    }
-                },
-        new Response.ErrorListener() {
+    public void queueGetJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        if (id == 0)
+            return;
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("Error.Response", response);
-            }
-        });
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, GET_JOKE_URL + id, null, responseListener, errorListener);
+        request.setShouldCache(false);
+        requestQueue.add(request);
     }
 }

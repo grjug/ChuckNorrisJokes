@@ -3,7 +3,7 @@ package com.grjug.android.chucknorrisjokes.api.data;
 /**
  * Created by foxefj on 3/17/14.
  */
-public class ChuckNorrisJoke {
+public class ChuckNorrisJokeData {
     private int id;
     private String joke;
 
