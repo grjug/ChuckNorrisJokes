@@ -12,9 +12,6 @@ import org.json.JSONObject;
  */
 public class ChuckNorrisApiController {
     private ChuckNorrisApiDao apiDao;
-    private boolean returned;
-    private JSONObject jsonObject;
-    private String errorMessage;
 
     public ChuckNorrisJokeData getRandomJoke() {
         JSONObject jsonObject = apiDao.getRandomJoke();
