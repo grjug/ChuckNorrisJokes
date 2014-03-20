@@ -25,4 +25,8 @@ public class ChuckNorrisApiDao {
     public void getNumberOfJokes(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         apiUtil.queueGetNumberOfJokes(responseListener, errorListener);
     }
+
+    public void getCategories(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        apiUtil.queueGetCategories(responseListener, errorListener);
+    }
 }

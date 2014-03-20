@@ -2,9 +2,7 @@ package com.grjug.android.chucknorrisjokes.api.controller;
 
 import com.android.volley.Response;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
-import com.grjug.android.chucknorrisjokes.api.data.ChuckNorrisJokeData;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -13,32 +11,19 @@ import org.json.JSONObject;
 public class ChuckNorrisApiController {
     private ChuckNorrisApiDao apiDao;
 
-    public ChuckNorrisJokeData getRandomJoke() {
-        JSONObject jsonObject = apiDao.getRandomJoke();
-        return buildChuckNorrisJokeData(jsonObject);
-    }
-
     public void getRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         apiDao.getRandomJoke(responseListener, errorListener);
-    }
-
-    public ChuckNorrisJokeData getJokeById(int id) {
-        JSONObject jsonObject = apiDao.getJokeById(id);
-        return buildChuckNorrisJokeData(jsonObject);
     }
 
     public void getJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         apiDao.getJokeById(id, responseListener, errorListener);
     }
 
-    private ChuckNorrisJokeData buildChuckNorrisJokeData(JSONObject jsonObject) {
-        ChuckNorrisJokeData data = new ChuckNorrisJokeData();
-        try {
-            data.setId(jsonObject.getInt("id"));
-            data.setJoke(jsonObject.getString("joke"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return data;
+    public void getNumberOfJokes(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        apiDao.getNumberOfJokes(responseListener, errorListener);
+    }
+
+    public void getCategories(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        apiDao.getCategories(responseListener, errorListener);
     }
 }
