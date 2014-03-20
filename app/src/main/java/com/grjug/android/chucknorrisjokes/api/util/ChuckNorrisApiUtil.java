@@ -33,9 +33,7 @@ public class ChuckNorrisApiUtil {
     }
 
     public void queueGetRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RANDOM_URL, null, responseListener, errorListener);
-        request.setShouldCache(false);
-        requestQueue.add(request);
+        queueRequest(RANDOM_URL, responseListener, errorListener);
     }
 
     public void queueGetJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
@@ -43,18 +41,19 @@ public class ChuckNorrisApiUtil {
             return;
 
         String url = GET_JOKE_URL + id;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, responseListener, errorListener);
-        requestQueue.add(request);
+        queueRequest(url, responseListener, errorListener);
     }
 
     public void queueGetNumberOfJokes(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, COUNT_URL, null, responseListener, errorListener);
-        request.setShouldCache(false);
-        requestQueue.add(request);
+        queueRequest(COUNT_URL, responseListener, errorListener);
     }
 
     public void queueGetCategories(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, CATEGORY_URL, null, responseListener, errorListener);
+        queueRequest(CATEGORY_URL, responseListener, errorListener);
+    }
+
+    private void queueRequest(String url, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, responseListener, errorListener);
         request.setShouldCache(false);
         requestQueue.add(request);
     }
