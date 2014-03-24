@@ -3,6 +3,7 @@
 
     <string name="app_name">Chuck Norris Jokes</string>
     <string name="hello_world">Hello world!</string>
+    <string name="refresh">Refresh!</string>
     <string name="action_settings">Settings</string>
 
 </resources>

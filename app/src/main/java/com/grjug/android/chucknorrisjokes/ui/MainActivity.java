@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -19,36 +20,46 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity {
+    private ChuckNorrisApiController controller = null;
+    private TextView txtJoke = null;
+    private Button btnRefresh = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-        }
+        controller = ChuckNorrisApiController.getInstance(this);
+        txtJoke = (TextView) this.findViewById(R.id.joke);
+        btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
 
-        final ChuckNorrisApiController controller = ChuckNorrisApiController.getInstance(this);
-        final TextView jokeText = (TextView) this.findViewById(R.id.joke);
+        refreshRandomJoke();
+
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshRandomJoke();
+            }
+        });
+    }
+
+    private void refreshRandomJoke() {
         controller.getRandomJoke(new Response.Listener<JSONObject>() {
                                      @Override
                                      public void onResponse(JSONObject jsonObject) {
                                          try {
-                                             jokeText.setText(jsonObject.getString("joke"));
+                                             txtJoke.setText(jsonObject.getJSONObject("value").getString("joke"));
                                          } catch (JSONException e) {
-                                             jokeText.setText(e.getMessage());
+                                             txtJoke.setText(e.getMessage());
                                          }
                                      }
                                  }, new Response.ErrorListener() {
                                      @Override
                                      public void onErrorResponse(VolleyError volleyError) {
-                                         jokeText.setText(volleyError.getMessage());
+                                         txtJoke.setText(volleyError.getMessage());
                                      }
                                  }
-                    );
+        );
     }
 
 
@@ -70,22 +81,6 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
     }
 
 }
