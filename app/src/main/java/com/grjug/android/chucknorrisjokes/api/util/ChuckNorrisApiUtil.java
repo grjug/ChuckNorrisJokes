@@ -14,22 +14,14 @@ import org.json.JSONObject;
  * Created by foxefj on 3/17/14.
  */
 public class ChuckNorrisApiUtil {
-    private static RequestQueue requestQueue;
-    private static ChuckNorrisApiUtil apiUtil;
+    private RequestQueue requestQueue;
     private static final String RANDOM_URL = "http://api.icndb.com/jokes/random";
     private static final String GET_JOKE_URL = "http://api.icndb.com/jokes/";
     private static final String COUNT_URL = "http://api.icndb.com/jokes/count";
     private static final String CATEGORY_URL = "http://api.icndb.com/jokes/categories";
 
-    private ChuckNorrisApiUtil(Context context) {
+    public ChuckNorrisApiUtil(Context context) {
         requestQueue = Volley.newRequestQueue(context);
-    }
-
-    public static ChuckNorrisApiUtil getInstance(Context context) {
-        if (apiUtil == null)
-            apiUtil = new ChuckNorrisApiUtil(context);
-
-        return apiUtil;
     }
 
     public void queueGetRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {

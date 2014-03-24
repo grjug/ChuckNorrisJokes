@@ -11,18 +11,10 @@ import org.json.JSONObject;
  * Created by foxefj on 3/17/14.
  */
 public class ChuckNorrisApiDao {
-    private static ChuckNorrisApiUtil apiUtil;
-    private static ChuckNorrisApiDao apiDao;
+    private ChuckNorrisApiUtil apiUtil;
 
-    private ChuckNorrisApiDao(Context context)  {
-        this.apiUtil = ChuckNorrisApiUtil.getInstance(context);
-    }
-
-    public static ChuckNorrisApiDao getInstance(Context context) {
-        if (apiDao == null)
-            apiDao = new ChuckNorrisApiDao(context);
-
-        return apiDao;
+    public ChuckNorrisApiDao(Context context)  {
+        this.apiUtil = new ChuckNorrisApiUtil(context);
     }
 
     public void getRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {

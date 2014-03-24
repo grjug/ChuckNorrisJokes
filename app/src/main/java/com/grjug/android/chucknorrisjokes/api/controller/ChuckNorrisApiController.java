@@ -11,11 +11,11 @@ import org.json.JSONObject;
  * Created by foxefj on 3/18/14.
  */
 public class ChuckNorrisApiController {
-    private static ChuckNorrisApiDao apiDao;
     private static ChuckNorrisApiController controller;
+    private ChuckNorrisApiDao apiDao;
 
     private ChuckNorrisApiController(Context context) {
-        apiDao = ChuckNorrisApiDao.getInstance(context);
+        apiDao = new ChuckNorrisApiDao(context);
     }
 
     public static ChuckNorrisApiController getInstance(Context context) {
