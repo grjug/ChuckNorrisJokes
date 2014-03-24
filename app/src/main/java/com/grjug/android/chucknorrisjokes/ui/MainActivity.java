@@ -1,15 +1,22 @@
-package com.grjug.android.chucknorrisjokes;
+package com.grjug.android.chucknorrisjokes.ui;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.grjug.android.chucknorrisjokes.R;
+import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -23,6 +30,25 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        final ChuckNorrisApiController controller = ChuckNorrisApiController.getInstance(this);
+        final TextView jokeText = (TextView) this.findViewById(R.id.joke);
+        controller.getRandomJoke(new Response.Listener<JSONObject>() {
+                                     @Override
+                                     public void onResponse(JSONObject jsonObject) {
+                                         try {
+                                             jokeText.setText(jsonObject.getString("joke"));
+                                         } catch (JSONException e) {
+                                             jokeText.setText(e.getMessage());
+                                         }
+                                     }
+                                 }, new Response.ErrorListener() {
+                                     @Override
+                                     public void onErrorResponse(VolleyError volleyError) {
+                                         jokeText.setText(volleyError.getMessage());
+                                     }
+                                 }
+                    );
     }
 
 
