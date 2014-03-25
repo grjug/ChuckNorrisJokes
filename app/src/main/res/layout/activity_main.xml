@@ -8,28 +8,75 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.grjug.android.chucknorrisjokes.ui.MainActivity"
-    tools:ignore="MergeRootFrame">
-
-
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/hello_world"/>
+    tools:ignore="MergeRootFrame"
+    >
 
     <TextView
-        android:text="joke"
+        android:text="Welcome to the GR-JUG Chuck Norris Joke App!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/joke"
-        android:layout_below="@+id/hello_world"/>
+        android:id="@+id/welcome"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="100dp"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/welcome"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/center2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:layout_below="@+id/center"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/refresh"
-        android:id="@+id/btnRefresh"
-        android:layout_below="@+id/joke"/>
+        android:text="@string/action_random"
+        android:id="@+id/btnRandom"
+        android:layout_toLeftOf="@+id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/welcome"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_categories"
+        android:id="@+id/btnCategoryList"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/center"
+        android:layout_below="@+id/welcome"
+        android:layout_marginBottom="30dp"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_settings"
+        android:id="@+id/btnSettings"
+        android:layout_centerHorizontal="true"
+        android:layout_toLeftOf="@+id/center2"
+        android:layout_below="@+id/btnRandom"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_save_joke"
+        android:id="@+id/btnSaveJoke"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@+id/center2"
+        android:layout_below="@+id/btnCategoryList"/>
 
 </RelativeLayout>
 
