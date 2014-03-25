@@ -20,6 +20,9 @@ public class MainActivity extends ActionBarActivity {
     private ChuckNorrisApiController controller = null;
     private TextView txtJoke = null;
     private Button btnRefresh = null;
+    private Button btnCategoryList = null;
+    private Button btnSettings = null;
+    private Button btnSaveJoke = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,9 @@ public class MainActivity extends ActionBarActivity {
         controller = ChuckNorrisApiController.getInstance(this);
         txtJoke = (TextView) this.findViewById(R.id.joke);
         btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
+        btnCategoryList = (Button) this.findViewById(R.id.btnCategoryList);
+        btnSettings = (Button) this.findViewById(R.id.btnSettings);
+        btnSaveJoke = (Button) this.findViewById(R.id.btnSaveJoke);
 
         refreshRandomJoke();
 
@@ -36,6 +42,27 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 refreshRandomJoke();
+            }
+        });
+
+        btnCategoryList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO:- build intent to category list activity
+            }
+        });
+
+        btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO:- build intent to settings activity
+            }
+        });
+
+        btnSaveJoke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO:- build intent to save joke activity
             }
         });
     }
