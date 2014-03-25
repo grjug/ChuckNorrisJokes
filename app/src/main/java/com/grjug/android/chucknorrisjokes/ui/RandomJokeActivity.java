@@ -27,11 +27,11 @@ public class RandomJokeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_random_joke);
 
         controller = ChuckNorrisApiController.getInstance(this);
         txtJoke = (TextView) this.findViewById(R.id.joke);
-//        btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
+        btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
 
         refreshRandomJoke();
 

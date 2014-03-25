@@ -1,5 +1,6 @@
 package com.grjug.android.chucknorrisjokes.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -28,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
         btnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO:- build intent to random joke activity
+                startRandomActivity();
             }
         });
 
@@ -52,6 +53,11 @@ public class MainActivity extends ActionBarActivity {
                 // TODO:- build intent to save joke activity
             }
         });
+    }
+
+    private void startRandomActivity() {
+        Intent intent = new Intent(this, RandomJokeActivity.class);
+        startActivity(intent);
     }
 
 
