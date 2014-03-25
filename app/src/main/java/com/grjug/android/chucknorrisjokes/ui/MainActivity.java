@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
         btnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO:- build intent to category list activity
+                // TODO:- build intent to random joke activity
             }
         });
 
