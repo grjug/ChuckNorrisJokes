@@ -6,20 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.grjug.android.chucknorrisjokes.R;
-import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends ActionBarActivity {
-    private ChuckNorrisApiController controller = null;
-    private TextView txtJoke = null;
-    private Button btnRefresh = null;
+    private Button btnRandom = null;
     private Button btnCategoryList = null;
     private Button btnSettings = null;
     private Button btnSaveJoke = null;
@@ -29,19 +20,15 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controller = ChuckNorrisApiController.getInstance(this);
-        txtJoke = (TextView) this.findViewById(R.id.joke);
-        btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
+        btnRandom = (Button) this.findViewById(R.id.btnRandom);
         btnCategoryList = (Button) this.findViewById(R.id.btnCategoryList);
         btnSettings = (Button) this.findViewById(R.id.btnSettings);
         btnSaveJoke = (Button) this.findViewById(R.id.btnSaveJoke);
 
-        refreshRandomJoke();
-
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
+        btnRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                refreshRandomJoke();
+                // TODO:- build intent to category list activity
             }
         });
 
@@ -65,25 +52,6 @@ public class MainActivity extends ActionBarActivity {
                 // TODO:- build intent to save joke activity
             }
         });
-    }
-
-    private void refreshRandomJoke() {
-        controller.getRandomJoke(new Response.Listener<JSONObject>() {
-                                     @Override
-                                     public void onResponse(JSONObject jsonObject) {
-                                         try {
-                                             txtJoke.setText(jsonObject.getJSONObject("value").getString("joke"));
-                                         } catch (JSONException e) {
-                                             txtJoke.setText(e.getMessage());
-                                         }
-                                     }
-                                 }, new Response.ErrorListener() {
-                                     @Override
-                                     public void onErrorResponse(VolleyError volleyError) {
-                                         txtJoke.setText(volleyError.getMessage());
-                                     }
-                                 }
-        );
     }
 
 

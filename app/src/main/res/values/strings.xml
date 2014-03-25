@@ -6,6 +6,7 @@
     <string name="refresh">Refresh!</string>
     <string name="action_settings">Settings</string>
     <string name="action_categories">Categories</string>
-    <string name="action_save_joke">Save Joke</string>
+    <string name="action_save_joke">Save A Joke</string>
+    <string name="action_random">Random Joke</string>
 
 </resources>
