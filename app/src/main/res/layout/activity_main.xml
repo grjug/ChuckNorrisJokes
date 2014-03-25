@@ -36,23 +36,23 @@
         android:layout_height="wrap_content"
         android:text="@string/action_categories"
         android:id="@+id/btnCategoryList"
-        android:layout_toRightOf="@+id/btnRefresh"
-        android:layout_below="@+id/joke"/>
+        android:layout_alignParentBottom="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_settings"
         android:id="@+id/btnSettings"
-        android:layout_below="@+id/btnRefresh"/>
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btnCategoryList"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_save_joke"
         android:id="@+id/btnSaveJoke"
-        android:layout_toRightOf="@+id/btnSettings"
-        android:layout_below="@+id/btnCategoryList"/>
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btnSettings"/>
 
 </RelativeLayout>
 
