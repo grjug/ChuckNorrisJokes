@@ -2,12 +2,15 @@ package com.grjug.android.chucknorrisjokes.persistence;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.grjug.android.chucknorrisjokes.model.Joke;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by emonk on 4/14/14.
@@ -45,8 +48,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Create Statements
     // Joke table create statement
     private static final String CREATE_TABLE_JOKE = "CREATE TABLE "
-            + TABLE_JOKE + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_JOKE_TEXT
-            + " TEXT," + KEY_THUMBS_UP + " INTEGER," + KEY_CREATED_AT
+            + TABLE_JOKE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+            + KEY_JOKE_ID + "INTEGER," + KEY_JOKE_TEXT + " TEXT,"
+            + KEY_THUMBS_UP + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
     // Category table create statement
@@ -89,10 +93,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
  * Creating a joke
  */
-    public long createJoke(Joke joke, Integer thumbsUp,  long[] cat_ids) {
+    public long createJoke(Joke joke, Integer thumbsUp) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, joke.getId());
         values.put(KEY_JOKE_TEXT, joke.getJokeText());
         values.put(KEY_THUMBS_UP, thumbsUp);
         values.put(KEY_CREATED_AT, new Date().toString());
@@ -100,15 +105,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // insert row
         long joke_id = db.insert(TABLE_JOKE, null, values);
 
-        // assigning categories to joke
-        for (long cat_id : cat_ids) {
-            createJokeToCategory(joke_id, cat_id);
+        List<String> categories = joke.getCategories();
+
+        if (!categories.isEmpty()) {
+            // assigning categories to joke
+            for (String cat_name : categories) {
+                createJokeToCategory(joke_id, cat_name);
+            }
         }
 
         return joke_id;
     }
 
-    private long createJokeToCategory(long joke_id, long cat_id) {
+    private long createJokeToCategory(long joke_id, String cat_name) {
+        int exists = checkForCategoryByName(cat_name);
+        if (exists == 0){
+            createCategory(cat_name);
+        }
+
+        return 0;
+    }
+
+    public int checkForCategoryByName(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY
+                     + " WHERE " + KEY_CATEGORY_NAME
+                     + " = " + name;
+        Cursor cursor = db.rawQuery(sql, null);
+
+        return cursor.getCount();
+    }
+    public long createCategory(String category) {
+        //check if category exists
         return 0;
     }
 }
