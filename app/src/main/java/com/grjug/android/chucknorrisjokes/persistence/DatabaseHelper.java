@@ -40,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Category Table - column names
     private static final String KEY_CATEGORY_NAME = "category_name";
 
-
     // Joke to Category Table - column names
     private static final String KEY_JOKE_ID = "joke_id";
     private static final String KEY_CATEGORY_ID = "category_id";
@@ -48,10 +47,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Create Statements
     // Joke table create statement
     private static final String CREATE_TABLE_JOKE = "CREATE TABLE "
-            + TABLE_JOKE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_JOKE_ID + "INTEGER," + KEY_JOKE_TEXT + " TEXT,"
-            + KEY_THUMBS_UP + " INTEGER," + KEY_CREATED_AT
-            + " DATETIME" + ")";
+            + TABLE_JOKE + "(" + KEY_JOKE_ID + "INTEGER PRIMARY KEY,"
+            + KEY_JOKE_TEXT + " TEXT," + KEY_THUMBS_UP + " INTEGER,"
+            + KEY_CREATED_AT + " DATETIME" + ")";
 
     // Category table create statement
     private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_CATEGORY
@@ -113,30 +111,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createJokeToCategory(joke_id, cat_name);
             }
         }
-
         return joke_id;
     }
 
     private long createJokeToCategory(long joke_id, String cat_name) {
-        int exists = checkForCategoryByName(cat_name);
-        if (exists == 0){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int cat_id = checkForCategoryByName(cat_name);
+        if (cat_id == 0){
             createCategory(cat_name);
         }
+        ContentValues values = new ContentValues();
+        values.put(KEY_JOKE_ID, joke_id);
+        values.put(KEY_CATEGORY_ID, cat_id);
+        values.put(KEY_CREATED_AT, new Date().toString());
 
-        return 0;
+        // insert row
+        long joke_to_cat_id = db.insert(TABLE_JOKE_TO_CATEGORY, null, values);
+        return joke_to_cat_id;
     }
 
     public int checkForCategoryByName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY
                      + " WHERE " + KEY_CATEGORY_NAME
-                     + " = " + name;
-        Cursor cursor = db.rawQuery(sql, null);
-
-        return cursor.getCount();
-    }
-    public long createCategory(String category) {
-        //check if category exists
+                     + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[] {name});
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(cursor.getColumnIndex(KEY_CATEGORY_ID));
+        }
         return 0;
+    }
+
+    public long createCategory(String category_name) {
+        //check if category exists
+        SQLiteDatabase db = this.getWritableDatabase();
+        long category_id = 0;
+        if (checkForCategoryByName(category_name) == 0) {
+            ContentValues values = new ContentValues();
+            values.put(KEY_CATEGORY_NAME, category_name);
+            values.put(KEY_CREATED_AT, new Date().toString());
+            category_id = db.insert(TABLE_JOKE_TO_CATEGORY, null, values);
+        }
+        return category_id;
     }
 }
