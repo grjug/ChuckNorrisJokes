@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Create Statements
     // Joke table create statement
     private static final String CREATE_TABLE_JOKE = "CREATE TABLE "
-            + TABLE_JOKE + "(" + KEY_JOKE_ID + "INTEGER PRIMARY KEY,"
+            + TABLE_JOKE + "(" + KEY_JOKE_ID + " INTEGER PRIMARY KEY,"
             + KEY_JOKE_TEXT + " TEXT," + KEY_THUMBS_UP + " INTEGER,"
             + KEY_CREATED_AT + " DATETIME" + ")";
 
@@ -95,13 +95,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, joke.getId());
+        values.put(KEY_JOKE_ID, joke.getId());
         values.put(KEY_JOKE_TEXT, joke.getJokeText());
         values.put(KEY_THUMBS_UP, thumbsUp);
         values.put(KEY_CREATED_AT, new Date().toString());
 
         // insert row
-        long joke_id = db.insert(TABLE_JOKE, null, values);
+        long joke_id = db.insertOrThrow(TABLE_JOKE, null, values);
 
         List<String> categories = joke.getCategories();
 
@@ -111,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 createJokeToCategory(joke_id, cat_name);
             }
         }
+        db.close();
         return joke_id;
     }
 
@@ -154,4 +155,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return category_id;
     }
+
+    public String retrieveJokeTextById(long joke_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT " + KEY_JOKE_TEXT
+                + " FROM " + TABLE_JOKE
+                + " WHERE " + KEY_JOKE_ID
+                + " = ?";
+        Cursor cursor = db.rawQuery(sql, new String[] {Long.toString(joke_id)});
+        if (cursor.moveToFirst()) {
+            return cursor.getString(cursor.getColumnIndex(KEY_JOKE_TEXT));
+        }
+        return null;
+    }
+
+    //update joke - add ability to toggle thumbs up/down
+    public int updateJokeById(long joke_id, Integer thumbsUp) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean success = false;
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_JOKE_ID, joke_id);
+        values.put(KEY_THUMBS_UP, thumbsUp);
+
+        String whereClause = "WHERE " + KEY_JOKE_ID + " = ?";
+        String[] args = new String[] {Long.toString(joke_id)};
+
+        return db.update(TABLE_JOKE, values, whereClause, args);
+    }
+
+    //delete joke?
 }

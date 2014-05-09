@@ -28,8 +28,16 @@ public class DatabaseTest extends AndroidTestCase {
         joke.setId(123);
         joke.setJokeText("jokeText");
         joke.setCategories(new ArrayList<String>());
-        db.createJoke(joke, 0);
+
+        long joke_id = db.createJoke(joke, 0);
+
+        String jokeTxt = db.retrieveJokeTextById(joke_id);
+        assertEquals(joke.getJokeText(), jokeTxt);
     }
+
+    //testAddEntryWithCategory
+    //testAddCategory
+    //testUpdate
 
     public void tearDown() throws Exception{
         db.close();
