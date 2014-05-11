@@ -35,8 +35,16 @@ public class DatabaseTest extends AndroidTestCase {
         assertEquals(joke.getJokeText(), jokeTxt);
     }
 
+    public void testAddCategory() {
+        String testCat = "testCategory";
+        long success = db.createCategory(testCat);
+        int exists = db.checkForCategoryByName(testCat);
+
+        assertTrue(success != -1);
+        assertTrue(exists > 0);
+    }
+
     //testAddEntryWithCategory
-    //testAddCategory
     //testUpdate
 
     public void tearDown() throws Exception{

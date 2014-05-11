@@ -133,12 +133,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int checkForCategoryByName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + KEY_CATEGORY_ID + " FROM " + TABLE_CATEGORY
+        String sql = "SELECT " + KEY_ID + " FROM " + TABLE_CATEGORY
                      + " WHERE " + KEY_CATEGORY_NAME
                      + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[] {name});
         if (cursor.moveToFirst()) {
-            return cursor.getInt(cursor.getColumnIndex(KEY_CATEGORY_ID));
+            return cursor.getInt(cursor.getColumnIndex(KEY_ID));
         }
         return 0;
     }
@@ -151,7 +151,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             values.put(KEY_CATEGORY_NAME, category_name);
             values.put(KEY_CREATED_AT, new Date().toString());
-            category_id = db.insert(TABLE_JOKE_TO_CATEGORY, null, values);
+            category_id = db.insert(TABLE_CATEGORY, null, values);
         }
         return category_id;
     }
