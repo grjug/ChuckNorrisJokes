@@ -24,43 +24,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "chuckNorrisApiDB";
 
-    // Table Names
-    private static final String TABLE_JOKE = "jokes";
-    private static final String TABLE_CATEGORY = "categories";
-    private static final String TABLE_JOKE_TO_CATEGORY = "joke_to_category";
+    private interface BASE_COLUMNS {
+        public static final String KEY_CREATED_AT = "created_at";
+        public static final String _ID = "_id";
 
-    // Common column names
-    private static final String KEY_ID = "id";
-    private static final String KEY_CREATED_AT = "created_at";
+    }
 
-    // Joke Table - column names
-    private static final String KEY_JOKE_TEXT = "joke_text";
-    private static final String KEY_THUMBS_UP = "thumbs_up";
+    private static final class JOKE {
+        public static final String TABLE_NAME = "jokes";
+        public static final class COLUMNS implements BASE_COLUMNS{
+            public static final String KEY_JOKE_TEXT = "joke_text";
+            public static final String KEY_THUMBS_UP = "thumbs_up";
+        }
+    }
 
-    // Category Table - column names
-    private static final String KEY_CATEGORY_NAME = "category_name";
+    private static final class CATEGORY {
+        public static final String TABLE_NAME = "categories";
+        public static final class COLUMNS implements BASE_COLUMNS{
+            public static final String KEY_CATEGORY_NAME = "category_name";
+        }
+    }
 
-    // Joke to Category Table - column names
-    private static final String KEY_JOKE_ID = "joke_id";
-    private static final String KEY_CATEGORY_ID = "category_id";
+    private static final class JOKE_TO_CATEGORY {
+        public static final String TABLE_NAME = "joke_to_category";
+        public static final class COLUMNS implements BASE_COLUMNS{
+            public static final String KEY_JOKE_ID = "joke_id";
+            public static final String KEY_CATEGORY_ID = "category_id";
+        }
+    }
 
     // Table Create Statements
     // Joke table create statement
     private static final String CREATE_TABLE_JOKE = "CREATE TABLE "
-            + TABLE_JOKE + "(" + KEY_JOKE_ID + " INTEGER PRIMARY KEY,"
-            + KEY_JOKE_TEXT + " TEXT," + KEY_THUMBS_UP + " INTEGER,"
-            + KEY_CREATED_AT + " DATETIME" + ")";
+            + JOKE.TABLE_NAME + "(" + JOKE.COLUMNS._ID + " INTEGER PRIMARY KEY,"
+            + JOKE.COLUMNS.KEY_JOKE_TEXT + " TEXT," + JOKE.COLUMNS.KEY_THUMBS_UP + " INTEGER,"
+            + JOKE.COLUMNS.KEY_CREATED_AT + " DATETIME" + ")";
 
     // Category table create statement
-    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_CATEGORY
-            + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_CATEGORY_NAME + " TEXT,"
-            + KEY_CREATED_AT + " DATETIME" + ")";
+    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + CATEGORY.TABLE_NAME
+            + "(" + CATEGORY.COLUMNS._ID + " INTEGER PRIMARY KEY," + CATEGORY.COLUMNS.KEY_CATEGORY_NAME + " TEXT,"
+            + CATEGORY.COLUMNS.KEY_CREATED_AT + " DATETIME" + ")";
 
     // joke_to_category table create statement
     private static final String CREATE_TABLE_JOKE_TO_CATEGORY = "CREATE TABLE "
-            + TABLE_JOKE_TO_CATEGORY + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-            + KEY_JOKE_ID + " INTEGER," + KEY_CATEGORY_ID + " INTEGER,"
-            + KEY_CREATED_AT + " DATETIME" + ")";
+            + JOKE_TO_CATEGORY.TABLE_NAME + "(" + JOKE_TO_CATEGORY.COLUMNS._ID + " INTEGER PRIMARY KEY,"
+            + JOKE_TO_CATEGORY.COLUMNS.KEY_JOKE_ID + " INTEGER," + JOKE_TO_CATEGORY.COLUMNS.KEY_CATEGORY_ID + " INTEGER,"
+            + JOKE_TO_CATEGORY.COLUMNS.KEY_CREATED_AT + " DATETIME" + ")";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -80,9 +89,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // on upgrade drop older tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOKE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_JOKE_TO_CATEGORY);
+        db.execSQL("DROP TABLE IF EXISTS " + JOKE.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CATEGORY.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + JOKE_TO_CATEGORY.TABLE_NAME);
 
         // create new tables
         onCreate(db);
@@ -95,13 +104,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_JOKE_ID, joke.getId());
-        values.put(KEY_JOKE_TEXT, joke.getJokeText());
-        values.put(KEY_THUMBS_UP, thumbsUp);
-        values.put(KEY_CREATED_AT, new Date().toString());
+        values.put(JOKE.COLUMNS._ID, joke.getId());
+        values.put(JOKE.COLUMNS.KEY_JOKE_TEXT, joke.getJokeText());
+        values.put(JOKE.COLUMNS.KEY_THUMBS_UP, thumbsUp);
+        values.put(JOKE.COLUMNS.KEY_CREATED_AT, new Date().toString());
 
         // insert row
-        long joke_id = db.insertOrThrow(TABLE_JOKE, null, values);
+        long joke_id = db.insertOrThrow(JOKE.TABLE_NAME, null, values);
 
         List<String> categories = joke.getCategories();
 
@@ -122,23 +131,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             createCategory(cat_name);
         }
         ContentValues values = new ContentValues();
-        values.put(KEY_JOKE_ID, joke_id);
-        values.put(KEY_CATEGORY_ID, cat_id);
-        values.put(KEY_CREATED_AT, new Date().toString());
+        values.put(JOKE_TO_CATEGORY.COLUMNS._ID, joke_id);
+        values.put(JOKE_TO_CATEGORY.COLUMNS.KEY_CATEGORY_ID, cat_id);
+        values.put(JOKE_TO_CATEGORY.COLUMNS.KEY_CREATED_AT, new Date().toString());
 
         // insert row
-        long joke_to_cat_id = db.insert(TABLE_JOKE_TO_CATEGORY, null, values);
+        long joke_to_cat_id = db.insert(JOKE_TO_CATEGORY.TABLE_NAME, null, values);
         return joke_to_cat_id;
     }
 
     public int checkForCategoryByName(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + KEY_ID + " FROM " + TABLE_CATEGORY
-                     + " WHERE " + KEY_CATEGORY_NAME
+        String sql = "SELECT " + CATEGORY.COLUMNS._ID + " FROM " + CATEGORY.TABLE_NAME
+                     + " WHERE " + CATEGORY.COLUMNS.KEY_CATEGORY_NAME
                      + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[] {name});
         if (cursor.moveToFirst()) {
-            return cursor.getInt(cursor.getColumnIndex(KEY_ID));
+            return cursor.getInt(cursor.getColumnIndex(CATEGORY.COLUMNS._ID));
         }
         return 0;
     }
@@ -149,9 +158,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long category_id = 0;
         if (checkForCategoryByName(category_name) == 0) {
             ContentValues values = new ContentValues();
-            values.put(KEY_CATEGORY_NAME, category_name);
-            values.put(KEY_CREATED_AT, new Date().toString());
-            category_id = db.insert(TABLE_CATEGORY, null, values);
+            values.put(CATEGORY.COLUMNS.KEY_CATEGORY_NAME, category_name);
+            values.put(CATEGORY.COLUMNS.KEY_CREATED_AT, new Date().toString());
+            category_id = db.insert(CATEGORY.TABLE_NAME, null, values);
         }
         return category_id;
     }
@@ -159,13 +168,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String retrieveJokeTextById(long joke_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT " + KEY_JOKE_TEXT
-                + " FROM " + TABLE_JOKE
-                + " WHERE " + KEY_JOKE_ID
+        String sql = "SELECT " + JOKE.COLUMNS.KEY_JOKE_TEXT
+                + " FROM " + JOKE.TABLE_NAME
+                + " WHERE " + JOKE.COLUMNS._ID
                 + " = ?";
         Cursor cursor = db.rawQuery(sql, new String[] {Long.toString(joke_id)});
         if (cursor.moveToFirst()) {
-            return cursor.getString(cursor.getColumnIndex(KEY_JOKE_TEXT));
+            return cursor.getString(cursor.getColumnIndex(JOKE.COLUMNS.KEY_JOKE_TEXT));
         }
         return null;
     }
@@ -176,13 +185,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean success = false;
 
         ContentValues values = new ContentValues();
-        values.put(KEY_JOKE_ID, joke_id);
-        values.put(KEY_THUMBS_UP, thumbsUp);
+        values.put(JOKE.COLUMNS._ID, joke_id);
+        values.put(JOKE.COLUMNS.KEY_THUMBS_UP, thumbsUp);
 
-        String whereClause = "WHERE " + KEY_JOKE_ID + " = ?";
+        String whereClause = "WHERE " + JOKE.COLUMNS._ID + " = ?";
         String[] args = new String[] {Long.toString(joke_id)};
 
-        return db.update(TABLE_JOKE, values, whereClause, args);
+        return db.update(JOKE.TABLE_NAME, values, whereClause, args);
     }
 
     //delete joke?
