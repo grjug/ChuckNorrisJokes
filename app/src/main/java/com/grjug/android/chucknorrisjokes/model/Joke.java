@@ -8,6 +8,7 @@ import java.util.List;
 public class Joke {
     Integer id;
     String jokeText;
+    List<String> categories;
 
     public Integer getId() {
         return id;
@@ -24,6 +25,10 @@ public class Joke {
     public void setJokeText(String jokeText) {
         this.jokeText = jokeText;
     }
+
+    public List<String> getCategories() { return categories; }
+
+    public void setCategories(List<String> categories) {this.categories = categories;}
 
     @Override
     public boolean equals(Object o) {
