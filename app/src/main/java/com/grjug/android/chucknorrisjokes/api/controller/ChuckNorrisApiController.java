@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Response;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
+import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 
 import org.json.JSONObject;
 
@@ -25,12 +26,8 @@ public class ChuckNorrisApiController {
         return controller;
     }
 
-    public void getRandomJoke(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        apiDao.getRandomJoke(responseListener, errorListener);
-    }
-
-    public void getJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        apiDao.getJokeById(id, responseListener, errorListener);
+    public void getJokeById(int id, JokeCallback callback) {
+        apiDao.getJokeById(id, callback);
     }
 
     public void getNumberOfJokes(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {

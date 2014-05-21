@@ -8,13 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.grjug.android.chucknorrisjokes.R;
 import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
+import com.grjug.android.chucknorrisjokes.model.Joke;
 
 /**
  * Created by carlushenry on 3/25/14.
@@ -44,22 +41,16 @@ public class RandomJokeActivity extends ActionBarActivity {
     }
 
     private void refreshRandomJoke() {
-        controller.getRandomJoke(new Response.Listener<JSONObject>() {
-                                     @Override
-                                     public void onResponse(JSONObject jsonObject) {
-                                         try {
-                                             txtJoke.setText(jsonObject.getJSONObject("value").getString("joke"));
-                                         } catch (JSONException e) {
-                                             txtJoke.setText(e.getMessage());
-                                         }
-                                     }
-                                 }, new Response.ErrorListener() {
-                                     @Override
-                                     public void onErrorResponse(VolleyError volleyError) {
-                                         txtJoke.setText(volleyError.getMessage());
-                                     }
-                                 }
-        );
+        controller.getJokeById(Joke.RANDOM_ID, new JokeCallback() {
+            @Override
+            public void success(Joke joke) {
+                txtJoke.setText(joke.getText());
+            }
+            @Override
+            public void failure(String errorMessage) {
+                txtJoke.setText(errorMessage);
+            }
+        });
     }
 
 
