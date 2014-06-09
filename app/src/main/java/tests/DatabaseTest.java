@@ -26,13 +26,13 @@ public class DatabaseTest extends AndroidTestCase {
         // Here I have my new database which is not connected to the standard database of the App
         Joke joke = new Joke();
         joke.setId(123);
-        joke.setJokeText("jokeText");
+        joke.setText("jokeText");
         joke.setCategories(new ArrayList<String>());
 
         long joke_id = db.createJoke(joke, 0);
 
         String jokeTxt = db.retrieveJokeTextById(joke_id);
-        assertEquals(joke.getJokeText(), jokeTxt);
+        assertEquals(joke.getText(), jokeTxt);
     }
 
     public void testAddCategory() {

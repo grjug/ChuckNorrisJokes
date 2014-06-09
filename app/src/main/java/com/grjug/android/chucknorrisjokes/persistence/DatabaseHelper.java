@@ -105,7 +105,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(JOKE.COLUMNS._ID, joke.getId());
-        values.put(JOKE.COLUMNS.KEY_JOKE_TEXT, joke.getJokeText());
+        values.put(JOKE.COLUMNS.KEY_JOKE_TEXT, joke.getText());
         values.put(JOKE.COLUMNS.KEY_THUMBS_UP, thumbsUp);
         values.put(JOKE.COLUMNS.KEY_CREATED_AT, new Date().toString());
 
