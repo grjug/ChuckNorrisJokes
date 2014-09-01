@@ -47,6 +47,7 @@ public class RandomJokeActivity extends ActionBarActivity {
         controller.getJokeById(Joke.RANDOM_ID, new JokeCallback() {
             @Override
             public void success(Joke joke) {
+                Timber.i("Successfully returned joke with Id: %d", joke.getId());
                 txtJoke.setText(joke.getText());
             }
             @Override

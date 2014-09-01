@@ -8,6 +8,8 @@ import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 
 import org.json.JSONObject;
 
+import timber.log.Timber;
+
 /**
  * Created by foxefj on 3/18/14.
  */
@@ -27,6 +29,7 @@ public class ChuckNorrisApiController {
     }
 
     public void getJokeById(int id, JokeCallback callback) {
+        Timber.i("Retrieving joke...");
         apiDao.getJokeById(id, callback);
     }
 
