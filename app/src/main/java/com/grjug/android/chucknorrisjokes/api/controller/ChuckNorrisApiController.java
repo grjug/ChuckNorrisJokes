@@ -5,18 +5,30 @@ import android.content.Context;
 import com.android.volley.Response;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
+import com.grjug.android.chucknorrisjokes.model.JokeResponse;
 
 import org.json.JSONObject;
+
+import retrofit.RestAdapter;
+import retrofit.http.GET;
+import rx.Observable;
 
 /**
  * Created by foxefj on 3/18/14.
  */
 public class ChuckNorrisApiController {
     private static ChuckNorrisApiController controller;
+    private final ChuckNorrisService chuckNorrisService;
     private ChuckNorrisApiDao apiDao;
 
     private ChuckNorrisApiController(Context context) {
         apiDao = new ChuckNorrisApiDao(context);
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://api.icndb.com")
+                .build();
+
+        chuckNorrisService = restAdapter.create(ChuckNorrisService.class);
     }
 
     public static ChuckNorrisApiController getInstance(Context context) {
@@ -24,6 +36,10 @@ public class ChuckNorrisApiController {
             controller = new ChuckNorrisApiController(context);
 
         return controller;
+    }
+
+    public Observable<JokeResponse> fetchRandomJoke() {
+        return chuckNorrisService.fetchRandomJoke();
     }
 
     public void getJokeById(int id, JokeCallback callback) {
@@ -37,4 +53,12 @@ public class ChuckNorrisApiController {
     public void getCategories(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
         apiDao.getCategories(responseListener, errorListener);
     }
+
+
+    public interface ChuckNorrisService {
+        @GET("/jokes/random")
+        public Observable<JokeResponse> fetchRandomJoke();
+    }
+
+
 }

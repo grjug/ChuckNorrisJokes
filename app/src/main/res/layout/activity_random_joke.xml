@@ -18,10 +18,10 @@
         android:id="@+id/hello_world"/>
 
     <TextView
-        android:text="joke"
+        android:text="legacyJoke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/joke"
+        android:id="@+id/legacyJoke"
         android:layout_below="@+id/hello_world"/>
 
     <Button
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="@string/refresh"
         android:id="@+id/btnRefresh"
-        android:layout_below="@+id/joke"/>
+        android:layout_below="@+id/legacyJoke"/>
 
 </RelativeLayout>
 

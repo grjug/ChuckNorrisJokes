@@ -6,7 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.grjug.android.chucknorrisjokes.api.util.ChuckNorrisApiUtil;
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
-import com.grjug.android.chucknorrisjokes.model.Joke;
+import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,14 +26,14 @@ public class ChuckNorrisApiDao {
             @Override
             public void onResponse(JSONObject jsonObject) {
                 try {
-                    Joke joke = new Joke();
+                    LegacyJoke legacyJoke = new LegacyJoke();
 
-                    String jokeText = jsonObject.getJSONObject("value").getString("joke");
+                    String jokeText = jsonObject.getJSONObject("value").getString("legacyJoke");
                     int jokeId = jsonObject.getJSONObject("value").getInt("id");
 
-                    joke.setText(jokeText);
-                    joke.setId(jokeId);
-                    callback.success(joke);
+                    legacyJoke.setText(jokeText);
+                    legacyJoke.setId(jokeId);
+                    callback.success(legacyJoke);
 
                 } catch (JSONException e) {
                     callback.failure(e.getMessage());

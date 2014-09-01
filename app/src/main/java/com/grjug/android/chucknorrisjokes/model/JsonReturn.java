@@ -6,16 +6,16 @@ import java.util.List;
  * Created by emonk on 3/18/14.
  */
 public class JsonReturn {
-    List<Joke> jokeList;
+    List<LegacyJoke> legacyJokeList;
     List<String> categories;
     Integer count;
 
-    public List<Joke> getJokeList() {
-        return jokeList;
+    public List<LegacyJoke> getLegacyJokeList() {
+        return legacyJokeList;
     }
 
-    public void setJokeList(List<Joke> jokeList) {
-        this.jokeList = jokeList;
+    public void setLegacyJokeList(List<LegacyJoke> legacyJokeList) {
+        this.legacyJokeList = legacyJokeList;
     }
 
     public List<String> getCategories() {

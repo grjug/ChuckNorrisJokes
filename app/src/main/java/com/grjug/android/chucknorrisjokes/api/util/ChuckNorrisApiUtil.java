@@ -7,7 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.grjug.android.chucknorrisjokes.model.Joke;
+import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
 
 import org.json.JSONObject;
 
@@ -25,7 +25,7 @@ public class ChuckNorrisApiUtil {
     }
 
     public void queueGetJokeById(int id, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        String url = GET_JOKE_URL + (id == Joke.RANDOM_ID ? "random" : id);
+        String url = GET_JOKE_URL + (id == LegacyJoke.RANDOM_ID ? "random" : id);
 
         queueRequest(url, responseListener, errorListener);
     }
