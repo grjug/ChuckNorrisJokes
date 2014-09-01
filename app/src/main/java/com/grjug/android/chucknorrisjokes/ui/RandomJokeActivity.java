@@ -13,6 +13,8 @@ import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiControlle
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 import com.grjug.android.chucknorrisjokes.model.Joke;
 
+import timber.log.Timber;
+
 /**
  * Created by carlushenry on 3/25/14.
  */
@@ -24,6 +26,7 @@ public class RandomJokeActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.i("Starting RandomJokeActivity");
         setContentView(R.layout.activity_random_joke);
 
         controller = ChuckNorrisApiController.getInstance(this);

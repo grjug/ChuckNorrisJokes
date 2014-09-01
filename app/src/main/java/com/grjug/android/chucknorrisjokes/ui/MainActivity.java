@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.grjug.android.chucknorrisjokes.R;
 
+import timber.log.Timber;
+
 public class MainActivity extends ActionBarActivity {
     private Button btnRandom = null;
     private Button btnCategoryList = null;
@@ -20,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Timber.i("Starting the MainActivity...");
 
         btnRandom = (Button) this.findViewById(R.id.btnRandom);
         btnCategoryList = (Button) this.findViewById(R.id.btnCategoryList);
@@ -56,6 +59,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void startRandomActivity() {
+        Timber.i("Starting the RandomJokeActivity from MainActivity...");
         Intent intent = new Intent(this, RandomJokeActivity.class);
         startActivity(intent);
     }
