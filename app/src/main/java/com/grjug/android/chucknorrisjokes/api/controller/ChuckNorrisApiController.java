@@ -42,19 +42,6 @@ public class ChuckNorrisApiController {
         return chuckNorrisService.fetchRandomJoke();
     }
 
-    public void getJokeById(int id, JokeCallback callback) {
-        apiDao.getJokeById(id, callback);
-    }
-
-    public void getNumberOfJokes(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        apiDao.getNumberOfJokes(responseListener, errorListener);
-    }
-
-    public void getCategories(Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener) {
-        apiDao.getCategories(responseListener, errorListener);
-    }
-
-
     public interface ChuckNorrisService {
         @GET("/jokes/random")
         public Observable<JokeResponse> fetchRandomJoke();

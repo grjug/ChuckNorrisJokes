@@ -31,7 +31,7 @@ public class JokeResponse {
         this.joke = joke;
     }
 
-    private class Joke {
+    public class Joke {
         @Expose
         private Integer id;
 
@@ -66,7 +66,7 @@ public class JokeResponse {
         }
     }
 
-    private class Category {
+    public class Category {
         @Expose
         private List<String> categoryNames;
 

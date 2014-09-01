@@ -52,17 +52,6 @@ public class RandomJokeActivity extends ActionBarActivity {
     }
 
     private void refreshRandomJoke() {
-//        controller.getJokeById(LegacyJoke.RANDOM_ID, new JokeCallback() {
-//            @Override
-//            public void success(LegacyJoke legacyJoke) {
-//                txtJoke.setText(legacyJoke.getText());
-//            }
-//            @Override
-//            public void failure(String errorMessage) {
-//                txtJoke.setText(errorMessage);
-//            }
-//        });
-
         Subscription subscription = AndroidObservable.bindActivity(this, controller.fetchRandomJoke())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -78,10 +67,10 @@ public class RandomJokeActivity extends ActionBarActivity {
                     @Override
                     public void onNext(JokeResponse jokeResponse) {
                         Log.i("RandomJokeActivity", "This is the joke response");
+                        txtJoke.setText(jokeResponse.getJoke().getJokeString());
                     }
                 });
         compositeSubscription.add(subscription);
-
     }
 
 
