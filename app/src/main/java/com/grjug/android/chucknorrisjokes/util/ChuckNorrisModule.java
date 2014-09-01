@@ -34,10 +34,4 @@ public class ChuckNorrisModule {
     ChuckNorrisApiController providesChuckNorrisApiController() {
         return ChuckNorrisApiController.getInstance(app);
     }
-
-    @Provides
-    @Singleton
-    Application provideApplication() {
-        return app;
-    }
 }

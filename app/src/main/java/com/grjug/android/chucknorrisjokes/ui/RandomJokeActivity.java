@@ -20,7 +20,7 @@ import javax.inject.Inject;
  */
 public class RandomJokeActivity extends ActionBarActivity {
     @Inject
-    private ChuckNorrisApiController controller;
+    ChuckNorrisApiController controller;
 
     private TextView txtJoke = null;
     private Button btnRefresh = null;
