@@ -34,6 +34,10 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:19.0.1'
     compile 'com.android.support:appcompat-v7:19.0.1'
+
+    compile 'com.squareup.dagger:dagger:1.2.1'
+    provided 'com.squareup.dagger:dagger-compiler:1.2.1'
+
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     androidTestCompile 'junit:junit:4.+'
