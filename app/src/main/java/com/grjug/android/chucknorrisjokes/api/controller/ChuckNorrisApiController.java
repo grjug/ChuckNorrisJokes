@@ -6,12 +6,14 @@ import com.android.volley.Response;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 import com.grjug.android.chucknorrisjokes.model.JokeResponse;
+import com.grjug.android.chucknorrisjokes.model.UIJoke;
 
 import org.json.JSONObject;
 
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by foxefj on 3/18/14.
@@ -38,8 +40,13 @@ public class ChuckNorrisApiController {
         return controller;
     }
 
-    public Observable<JokeResponse> fetchRandomJoke() {
-        return chuckNorrisService.fetchRandomJoke();
+    public Observable<UIJoke> fetchRandomJoke() {
+        return chuckNorrisService.fetchRandomJoke().map(new Func1<JokeResponse, UIJoke>() {
+            @Override
+            public UIJoke call(JokeResponse jokeResponse) {
+                return new UIJoke(jokeResponse);
+            }
+        });
     }
 
     public interface ChuckNorrisService {

@@ -14,6 +14,7 @@ import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiControlle
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 import com.grjug.android.chucknorrisjokes.model.JokeResponse;
 import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
+import com.grjug.android.chucknorrisjokes.model.UIJoke;
 
 import rx.Observer;
 import rx.Subscription;
@@ -55,7 +56,7 @@ public class RandomJokeActivity extends ActionBarActivity {
         Subscription subscription = AndroidObservable.bindActivity(this, controller.fetchRandomJoke())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<JokeResponse>() {
+                .subscribe(new Observer<UIJoke>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -65,9 +66,9 @@ public class RandomJokeActivity extends ActionBarActivity {
                     }
 
                     @Override
-                    public void onNext(JokeResponse jokeResponse) {
+                    public void onNext(UIJoke uiJoke) {
                         Log.i("RandomJokeActivity", "This is the joke response");
-                        txtJoke.setText(jokeResponse.getJoke().getJokeString());
+                        txtJoke.setText(uiJoke.getJokeText());
                     }
                 });
         compositeSubscription.add(subscription);
