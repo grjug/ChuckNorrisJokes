@@ -13,11 +13,15 @@ import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiControlle
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 import com.grjug.android.chucknorrisjokes.model.Joke;
 
+import javax.inject.Inject;
+
 /**
  * Created by carlushenry on 3/25/14.
  */
 public class RandomJokeActivity extends ActionBarActivity {
-    private ChuckNorrisApiController controller = null;
+    @Inject
+    private ChuckNorrisApiController controller;
+
     private TextView txtJoke = null;
     private Button btnRefresh = null;
 
@@ -26,7 +30,9 @@ public class RandomJokeActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_random_joke);
 
-        controller = ChuckNorrisApiController.getInstance(this);
+        ChuckNorrisApplication app = ChuckNorrisApplication.get(this);
+        app.inject(this);
+
         txtJoke = (TextView) this.findViewById(R.id.joke);
         btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
 
@@ -73,7 +79,4 @@ public class RandomJokeActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

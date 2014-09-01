@@ -21,6 +21,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ChuckNorrisApplication chuckNorrisApplication = ChuckNorrisApplication.get(this);
+        chuckNorrisApplication.inject(this);
+
         btnRandom = (Button) this.findViewById(R.id.btnRandom);
         btnCategoryList = (Button) this.findViewById(R.id.btnCategoryList);
         btnSettings = (Button) this.findViewById(R.id.btnSettings);

@@ -4,9 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.grjug.android.chucknorrisjokes.persistence.DatabaseHelper;
+import com.grjug.android.chucknorrisjokes.util.Modules;
 
 import dagger.ObjectGraph;
-import dagger.internal.Modules;
 
 /**
  * Created by carlushenry on 5/11/14.
@@ -19,6 +19,7 @@ public class ChuckNorrisApplication extends Application {
         super.onCreate();
 
         init();
+        buildObjectGraphAndInject();
     }
 
     public void buildObjectGraphAndInject() {
