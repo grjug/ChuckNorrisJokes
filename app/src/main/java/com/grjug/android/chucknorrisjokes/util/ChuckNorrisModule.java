@@ -3,6 +3,8 @@ package com.grjug.android.chucknorrisjokes.util;
 import android.app.Application;
 
 import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
+import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
+import com.grjug.android.chucknorrisjokes.api.util.ChuckNorrisApiUtil;
 import com.grjug.android.chucknorrisjokes.ui.ChuckNorrisApplication;
 import com.grjug.android.chucknorrisjokes.ui.MainActivity;
 import com.grjug.android.chucknorrisjokes.ui.RandomJokeActivity;
@@ -31,7 +33,20 @@ public class ChuckNorrisModule {
 
     @Provides
     @Singleton
-    ChuckNorrisApiController providesChuckNorrisApiController() {
-        return ChuckNorrisApiController.getInstance(app);
+    ChuckNorrisApiController providesChuckNorrisApiController(ChuckNorrisApiDao apiDao) {
+        return new ChuckNorrisApiController(apiDao);
+    }
+
+    @Provides
+    @Singleton
+    ChuckNorrisApiDao providesChuckNorrisApiDao(ChuckNorrisApiUtil apiUtil) {
+        return new ChuckNorrisApiDao(apiUtil);
+    }
+
+
+    @Provides
+    @Singleton
+    ChuckNorrisApiUtil providesChuckNorrisApiUtil() {
+        return new ChuckNorrisApiUtil(app);
     }
 }

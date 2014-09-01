@@ -12,18 +12,10 @@ import org.json.JSONObject;
  * Created by foxefj on 3/18/14.
  */
 public class ChuckNorrisApiController {
-    private static ChuckNorrisApiController controller;
     private ChuckNorrisApiDao apiDao;
 
-    private ChuckNorrisApiController(Context context) {
-        apiDao = new ChuckNorrisApiDao(context);
-    }
-
-    public static ChuckNorrisApiController getInstance(Context context) {
-        if (controller == null)
-            controller = new ChuckNorrisApiController(context);
-
-        return controller;
+    public ChuckNorrisApiController(ChuckNorrisApiDao apiDao) {
+        this.apiDao = apiDao;
     }
 
     public void getJokeById(int id, JokeCallback callback) {
