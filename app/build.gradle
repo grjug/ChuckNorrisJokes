@@ -20,15 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
-            packageNameSuffix ".debug"
+            applicationIdSuffix ".debug"
         }
     }
 
     lintOptions {
         abortOnError false
+        disable 'InvalidPackage'
     }
-
-
 }
 
 dependencies {
@@ -42,6 +41,8 @@ dependencies {
 
     compile 'com.squareup.dagger:dagger:1.2.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
+
+    compile 'com.jakewharton:butterknife:5.1.2';
 
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'

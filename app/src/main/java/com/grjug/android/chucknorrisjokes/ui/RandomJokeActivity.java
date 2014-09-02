@@ -2,7 +2,6 @@ package com.grjug.android.chucknorrisjokes.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,10 +10,9 @@ import android.widget.TextView;
 
 import com.grjug.android.chucknorrisjokes.R;
 import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
-import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
-import com.grjug.android.chucknorrisjokes.model.JokeResponse;
-import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
 import com.grjug.android.chucknorrisjokes.model.UIJoke;
+
+import javax.inject.Inject;
 
 import rx.Observer;
 import rx.Subscription;
@@ -22,10 +20,7 @@ import rx.android.observables.AndroidObservable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
 import timber.log.Timber;
-
-import javax.inject.Inject;
 
 /**
  * Created by carlushenry on 3/25/14.

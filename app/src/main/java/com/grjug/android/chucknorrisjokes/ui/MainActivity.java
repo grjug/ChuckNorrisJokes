@@ -5,18 +5,27 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
 import com.grjug.android.chucknorrisjokes.R;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 public class MainActivity extends ActionBarActivity {
-    private Button btnRandom = null;
-    private Button btnCategoryList = null;
-    private Button btnSettings = null;
-    private Button btnSaveJoke = null;
+    @InjectView(R.id.btnRandom)
+    Button btnRandom = null;
+
+    @InjectView(R.id.btnCategoryList)
+    Button btnCategoryList = null;
+
+    @InjectView(R.id.btnSettings)
+    Button btnSettings = null;
+
+    @InjectView(R.id.btnSaveJoke)
+    Button btnSaveJoke = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,47 +35,15 @@ public class MainActivity extends ActionBarActivity {
 
         ChuckNorrisApplication chuckNorrisApplication = ChuckNorrisApplication.get(this);
         chuckNorrisApplication.inject(this);
-
-        btnRandom = (Button) this.findViewById(R.id.btnRandom);
-        btnCategoryList = (Button) this.findViewById(R.id.btnCategoryList);
-        btnSettings = (Button) this.findViewById(R.id.btnSettings);
-        btnSaveJoke = (Button) this.findViewById(R.id.btnSaveJoke);
-
-        btnRandom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRandomActivity();
-            }
-        });
-
-        btnCategoryList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO:- build intent to category list activity
-            }
-        });
-
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO:- build intent to settings activity
-            }
-        });
-
-        btnSaveJoke.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO:- build intent to save joke activity
-            }
-        });
+        ButterKnife.inject(this);
     }
 
-    private void startRandomActivity() {
+    @OnClick(R.id.btnRandom)
+    public void startRandomActivity() {
         Timber.i("Starting the RandomJokeActivity from MainActivity...");
         Intent intent = new Intent(this, RandomJokeActivity.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

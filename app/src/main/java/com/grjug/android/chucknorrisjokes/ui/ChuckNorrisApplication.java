@@ -8,7 +8,6 @@ import com.grjug.android.chucknorrisjokes.persistence.DatabaseHelper;
 import com.grjug.android.chucknorrisjokes.util.Modules;
 
 import dagger.ObjectGraph;
-
 import timber.log.Timber;
 
 /**

@@ -1,7 +1,5 @@
 package com.grjug.android.chucknorrisjokes.api.dao;
 
-import android.content.Context;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.grjug.android.chucknorrisjokes.api.util.ChuckNorrisApiUtil;
