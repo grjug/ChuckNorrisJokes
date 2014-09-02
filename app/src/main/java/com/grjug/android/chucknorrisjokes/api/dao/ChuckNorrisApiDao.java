@@ -17,8 +17,8 @@ import org.json.JSONObject;
 public class ChuckNorrisApiDao {
     private ChuckNorrisApiUtil apiUtil;
 
-    public ChuckNorrisApiDao(Context context)  {
-        this.apiUtil = new ChuckNorrisApiUtil(context);
+    public ChuckNorrisApiDao(ChuckNorrisApiUtil apiUtil)  {
+        this.apiUtil = apiUtil;
     }
 
     public void getJokeById(int id, final JokeCallback callback) {

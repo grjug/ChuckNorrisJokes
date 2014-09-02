@@ -21,25 +21,17 @@ import rx.functions.Func1;
  * Created by foxefj on 3/18/14.
  */
 public class ChuckNorrisApiController {
-    private static ChuckNorrisApiController controller;
     private final ChuckNorrisService chuckNorrisService;
     private ChuckNorrisApiDao apiDao;
 
-    private ChuckNorrisApiController(Context context) {
-        apiDao = new ChuckNorrisApiDao(context);
+    public ChuckNorrisApiController(ChuckNorrisApiDao apiDao) {
+        this.apiDao = apiDao;
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("http://api.icndb.com")
+                    .build();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://api.icndb.com")
-                .build();
+            chuckNorrisService = restAdapter.create(ChuckNorrisService.class);
 
-        chuckNorrisService = restAdapter.create(ChuckNorrisService.class);
-    }
-
-    public static ChuckNorrisApiController getInstance(Context context) {
-        if (controller == null)
-            controller = new ChuckNorrisApiController(context);
-
-        return controller;
     }
 
     public Observable<UIJoke> fetchRandomJoke() {
