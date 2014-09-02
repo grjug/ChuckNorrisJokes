@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.grjug.android.chucknorrisjokes.model.Joke;
+import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
 
 import java.util.Date;
 import java.util.List;
@@ -54,7 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Table Create Statements
-    // Joke table create statement
+    // LegacyJoke table create statement
     private static final String CREATE_TABLE_JOKE = "CREATE TABLE "
             + JOKE.TABLE_NAME + "(" + JOKE.COLUMNS._ID + " INTEGER PRIMARY KEY,"
             + JOKE.COLUMNS.KEY_JOKE_TEXT + " TEXT," + JOKE.COLUMNS.KEY_THUMBS_UP + " INTEGER,"
@@ -98,24 +97,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /*
- * Creating a joke
+ * Creating a legacyJoke
  */
-    public long createJoke(Joke joke, Integer thumbsUp) {
+    public long createJoke(LegacyJoke legacyJoke, Integer thumbsUp) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(JOKE.COLUMNS._ID, joke.getId());
-        values.put(JOKE.COLUMNS.KEY_JOKE_TEXT, joke.getText());
+        values.put(JOKE.COLUMNS._ID, legacyJoke.getId());
+        values.put(JOKE.COLUMNS.KEY_JOKE_TEXT, legacyJoke.getText());
         values.put(JOKE.COLUMNS.KEY_THUMBS_UP, thumbsUp);
         values.put(JOKE.COLUMNS.KEY_CREATED_AT, new Date().toString());
 
         // insert row
         long joke_id = db.insertOrThrow(JOKE.TABLE_NAME, null, values);
 
-        List<String> categories = joke.getCategories();
+        List<String> categories = legacyJoke.getCategories();
 
         if (!categories.isEmpty()) {
-            // assigning categories to joke
+            // assigning categories to legacyJoke
             for (String cat_name : categories) {
                 createJokeToCategory(joke_id, cat_name);
             }
