@@ -38,8 +38,9 @@ public class JokeResponse {
         @SerializedName("joke")
         @Expose
         private String jokeString;
+
         @Expose
-        private List<Category> categories;
+        private List<String> categories;
 
         public Integer getId() {
             return id;
@@ -57,25 +58,14 @@ public class JokeResponse {
             this.jokeString = jokeString;
         }
 
-        public List<Category> getCategories() {
+        public List<String> getCategories() {
             return categories;
         }
 
-        public void setCategories(List<Category> categories) {
+        public void setCategories(List<String> categories) {
             this.categories = categories;
         }
+
     }
 
-    public class Category {
-        @Expose
-        private List<String> categoryNames;
-
-        public List<String> getCategoryNames() {
-            return categoryNames;
-        }
-
-        public void setCategoryNames(List<String> categoryNames) {
-            this.categoryNames = categoryNames;
-        }
-    }
 }

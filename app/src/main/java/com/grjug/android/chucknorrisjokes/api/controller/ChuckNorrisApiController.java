@@ -1,21 +1,14 @@
 package com.grjug.android.chucknorrisjokes.api.controller;
 
-import android.content.Context;
-
-import com.android.volley.Response;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
-import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
 import com.grjug.android.chucknorrisjokes.model.JokeResponse;
 import com.grjug.android.chucknorrisjokes.model.UIJoke;
-
-import org.json.JSONObject;
-
-import timber.log.Timber;
 
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import rx.Observable;
 import rx.functions.Func1;
+import timber.log.Timber;
 
 /**
  * Created by foxefj on 3/18/14.
@@ -28,6 +21,7 @@ public class ChuckNorrisApiController {
         this.apiDao = apiDao;
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setEndpoint("http://api.icndb.com")
+                    .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build();
 
             chuckNorrisService = restAdapter.create(ChuckNorrisService.class);

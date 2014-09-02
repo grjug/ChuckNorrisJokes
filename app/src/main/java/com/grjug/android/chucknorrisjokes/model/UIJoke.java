@@ -1,5 +1,8 @@
 package com.grjug.android.chucknorrisjokes.model;
 
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+
 /**
  * Created by carlushenry on 8/31/14.
  */
@@ -12,6 +15,7 @@ public class UIJoke {
     }
 
     public String getJokeText() {
-        return jokeResponse.getJoke().getJokeString();
+        String jokeString = jokeResponse.getJoke().getJokeString();
+        return URLDecoder.decode(jokeString);
     }
 }

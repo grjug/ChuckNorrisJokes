@@ -1,7 +1,5 @@
 package com.grjug.android.chucknorrisjokes.util;
 
-import android.app.Application;
-
 import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
 import com.grjug.android.chucknorrisjokes.api.dao.ChuckNorrisApiDao;
 import com.grjug.android.chucknorrisjokes.api.util.ChuckNorrisApiUtil;
