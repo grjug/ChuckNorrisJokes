@@ -14,6 +14,9 @@ import com.grjug.android.chucknorrisjokes.model.UIJoke;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import butterknife.OnClick;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.observables.AndroidObservable;
@@ -29,8 +32,12 @@ public class RandomJokeActivity extends ActionBarActivity {
     @Inject
     ChuckNorrisApiController controller;
 
-    private TextView txtJoke = null;
-    private Button btnRefresh = null;
+    @InjectView(R.id.legacyJoke)
+    TextView txtJoke;
+
+    @InjectView(R.id.btnRefresh)
+    Button btnRefresh;
+
     private CompositeSubscription compositeSubscription;
 
     @Override
@@ -42,21 +49,13 @@ public class RandomJokeActivity extends ActionBarActivity {
 
         ChuckNorrisApplication app = ChuckNorrisApplication.get(this);
         app.inject(this);
-
-        txtJoke = (TextView) this.findViewById(R.id.legacyJoke);
-        btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
+        ButterKnife.inject(this);
 
         refreshRandomJoke();
-
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshRandomJoke();
-            }
-        });
     }
 
-    private void refreshRandomJoke() {
+    @OnClick(R.id.btnRefresh)
+    public void refreshRandomJoke() {
         Subscription subscription = AndroidObservable.bindActivity(this, controller.fetchRandomJoke())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
