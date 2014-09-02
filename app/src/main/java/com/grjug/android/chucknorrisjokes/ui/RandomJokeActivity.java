@@ -25,11 +25,15 @@ import rx.subscriptions.CompositeSubscription;
 
 import timber.log.Timber;
 
+import javax.inject.Inject;
+
 /**
  * Created by carlushenry on 3/25/14.
  */
 public class RandomJokeActivity extends ActionBarActivity {
-    private ChuckNorrisApiController controller = null;
+    @Inject
+    ChuckNorrisApiController controller;
+
     private TextView txtJoke = null;
     private Button btnRefresh = null;
     private CompositeSubscription compositeSubscription;
@@ -41,7 +45,9 @@ public class RandomJokeActivity extends ActionBarActivity {
         setContentView(R.layout.activity_random_joke);
         compositeSubscription = new CompositeSubscription();
 
-        controller = ChuckNorrisApiController.getInstance(this);
+        ChuckNorrisApplication app = ChuckNorrisApplication.get(this);
+        app.inject(this);
+
         txtJoke = (TextView) this.findViewById(R.id.legacyJoke);
         btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
 
