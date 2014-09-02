@@ -37,6 +37,9 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:2.4.1'
 
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
+    compile 'com.netflix.rxjava:rxjava-android:0.20.3'
+
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     androidTestCompile 'junit:junit:4.+'

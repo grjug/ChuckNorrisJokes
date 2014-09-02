@@ -1,14 +1,12 @@
 package tests;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-import com.grjug.android.chucknorrisjokes.model.Joke;
+import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
 import com.grjug.android.chucknorrisjokes.persistence.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by emonk on 4/29/14.
@@ -24,15 +22,15 @@ public class DatabaseTest extends AndroidTestCase {
 
     public void testAddEntry(){
         // Here I have my new database which is not connected to the standard database of the App
-        Joke joke = new Joke();
-        joke.setId(123);
-        joke.setText("jokeText");
-        joke.setCategories(new ArrayList<String>());
+        LegacyJoke legacyJoke = new LegacyJoke();
+        legacyJoke.setId(123);
+        legacyJoke.setText("jokeText");
+        legacyJoke.setCategories(new ArrayList<String>());
 
-        long joke_id = db.createJoke(joke, 0);
+        long joke_id = db.createJoke(legacyJoke, 0);
 
         String jokeTxt = db.retrieveJokeTextById(joke_id);
-        assertEquals(joke.getText(), jokeTxt);
+        assertEquals(legacyJoke.getText(), jokeTxt);
     }
 
     public void testAddCategory() {

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by emonk on 3/18/14.
  */
-public class Joke {
+public class LegacyJoke {
     public static final int RANDOM_ID = 0;
 
     Integer id;
@@ -37,9 +37,9 @@ public class Joke {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Joke joke = (Joke) o;
+        LegacyJoke legacyJoke = (LegacyJoke) o;
 
-        if (id != null ? !id.equals(joke.id) : joke.id != null) return false;
+        if (id != null ? !id.equals(legacyJoke.id) : legacyJoke.id != null) return false;
 
         return true;
     }

@@ -2,6 +2,7 @@ package com.grjug.android.chucknorrisjokes.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +12,16 @@ import android.widget.TextView;
 import com.grjug.android.chucknorrisjokes.R;
 import com.grjug.android.chucknorrisjokes.api.controller.ChuckNorrisApiController;
 import com.grjug.android.chucknorrisjokes.api.util.JokeCallback;
-import com.grjug.android.chucknorrisjokes.model.Joke;
+import com.grjug.android.chucknorrisjokes.model.JokeResponse;
+import com.grjug.android.chucknorrisjokes.model.LegacyJoke;
+import com.grjug.android.chucknorrisjokes.model.UIJoke;
+
+import rx.Observer;
+import rx.Subscription;
+import rx.android.observables.AndroidObservable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 import timber.log.Timber;
 
@@ -22,15 +32,17 @@ public class RandomJokeActivity extends ActionBarActivity {
     private ChuckNorrisApiController controller = null;
     private TextView txtJoke = null;
     private Button btnRefresh = null;
+    private CompositeSubscription compositeSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Timber.i("Starting RandomJokeActivity");
         setContentView(R.layout.activity_random_joke);
+        compositeSubscription = new CompositeSubscription();
 
         controller = ChuckNorrisApiController.getInstance(this);
-        txtJoke = (TextView) this.findViewById(R.id.joke);
+        txtJoke = (TextView) this.findViewById(R.id.legacyJoke);
         btnRefresh = (Button) this.findViewById(R.id.btnRefresh);
 
         refreshRandomJoke();
@@ -44,17 +56,26 @@ public class RandomJokeActivity extends ActionBarActivity {
     }
 
     private void refreshRandomJoke() {
-        controller.getJokeById(Joke.RANDOM_ID, new JokeCallback() {
-            @Override
-            public void success(Joke joke) {
-                Timber.i("Successfully returned joke with Id: %d", joke.getId());
-                txtJoke.setText(joke.getText());
-            }
-            @Override
-            public void failure(String errorMessage) {
-                txtJoke.setText(errorMessage);
-            }
-        });
+        Subscription subscription = AndroidObservable.bindActivity(this, controller.fetchRandomJoke())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<UIJoke>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Timber.e(e, "Failed to retrieve random joke");
+                    }
+
+                    @Override
+                    public void onNext(UIJoke uiJoke) {
+                        Timber.i("This is the joke response");
+                        txtJoke.setText(uiJoke.getJokeText());
+                    }
+                });
+        compositeSubscription.add(subscription);
     }
 
 
@@ -78,6 +99,9 @@ public class RandomJokeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeSubscription.unsubscribe();
+    }
 }
