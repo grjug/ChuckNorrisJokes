@@ -5,9 +5,12 @@ import java.util.List;
 /**
  * Created by emonk on 3/18/14.
  */
-public class Joke {
+public class LegacyJoke {
+    public static final int RANDOM_ID = 0;
+
     Integer id;
-    String jokeText;
+    String text;
+    List<String> categories;
 
     public Integer getId() {
         return id;
@@ -17,22 +20,26 @@ public class Joke {
         this.id = id;
     }
 
-    public String getJokeText() {
-        return jokeText;
+    public String getText() {
+        return text;
     }
 
-    public void setJokeText(String jokeText) {
-        this.jokeText = jokeText;
+    public void setText(String text) {
+        this.text = text;
     }
+
+    public List<String> getCategories() { return categories; }
+
+    public void setCategories(List<String> categories) {this.categories = categories;}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Joke joke = (Joke) o;
+        LegacyJoke legacyJoke = (LegacyJoke) o;
 
-        if (id != null ? !id.equals(joke.id) : joke.id != null) return false;
+        if (id != null ? !id.equals(legacyJoke.id) : legacyJoke.id != null) return false;
 
         return true;
     }

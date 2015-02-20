@@ -3,6 +3,10 @@
 
     <string name="app_name">Chuck Norris Jokes</string>
     <string name="hello_world">Hello world!</string>
+    <string name="refresh">Refresh!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_categories">Categories</string>
+    <string name="action_save_joke">Save A Joke</string>
+    <string name="action_random">Random Joke</string>
 
 </resources>
