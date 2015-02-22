@@ -1,26 +1,23 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
-
-    packagingOptions {
-       exclude 'LICENSE.txt'
-    }
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 19
-        versionCode 2
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
         versionName "1.0"
     }
     buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
         debug {
             applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled false
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -31,8 +28,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:19.0.1'
-    compile 'com.android.support:appcompat-v7:19.0.1'
+    compile 'com.android.support:support-v4:21.+'
+    compile 'com.android.support:appcompat-v7:21.+'
 
     compile 'com.jakewharton.timber:timber:2.4.1'
 
@@ -47,9 +44,4 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     androidTestCompile 'junit:junit:4.+'
-}
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
 }
